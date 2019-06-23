@@ -1,11 +1,12 @@
 package pl.nieweglowski.quotationapi_spring_security_test;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@RestController
+@Controller
 public class QuotationsController {
 
     List<Quotation> quotations;
@@ -17,17 +18,20 @@ public class QuotationsController {
     }
 
     @GetMapping("/api")
+    @ResponseBody
     public List<Quotation> getQuotations(){
         return quotations;
     }
 
     @GetMapping("/api/add/{author}/{quotation}")
-    public void addQuotation(@PathVariable String author, @PathVariable String quotation){
+    public String addQuotation(@PathVariable String author, @PathVariable String quotation){
         quotations.add(new Quotation(author, quotation));
+        return "redirect:/api";
     }
 
     @GetMapping("/api/delete/{index}")
-    public void deleteQutation(@PathVariable int index){
+    public String deleteQutation(@PathVariable int index){
         quotations.remove(index);
+        return "redirect:/api";
     }
 }
